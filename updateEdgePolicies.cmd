@@ -1,41 +1,25 @@
 @echo off
 setlocal
 
-net session >nul 2>&1
-if %errorLevel% neq 0 (
-    echo.
-    echo  [-] Permissao de Administrador Necessaria
-    echo.
-    echo Reinicie como Administrador
-    echo.
-    pause
-    exit /b 1
+set "REG_KEY=HKEY_CURRENT_USER\Software\Microsoft\Edge\PreferenceMACs\Default"
+
+echo [+] Encerrando Microsoft Edge...
+taskkill /f /im msedge.exe >nul 2>&1
+if %errorLevel% equ 0 (
+    echo [OK] Microsoft Edge encerrado com sucesso
 )
 
-set "REG_KEY=HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Edge"
-
-echo [+] Configurando Politicas do Microsoft Edge
+echo [+] Configurando...
 echo.
 
-echo Configurando DefaultSearchProviderEnabled...
-reg add "%REG_KEY%" /v DefaultSearchProviderEnabled /t REG_DWORD /d 1 /f >nul 2>&1
+reg add "%REG_KEY%" /v default_search_provider_data.template_url_data /t REG_SZ /d "6E4F9F2C4427827E9B2CCFCF10CF4ABD0B88455F53EBD7CE9B7EC791046B36F8" /f >nul 2>&1
 if %errorLevel% equ 0 (
-    echo [OK] DefaultSearchProviderEnabled = 1
+    echo [OK] default_search_provider_data.template_url_data alterado!
 ) else (
-    echo [ERRO] Nao foi possivel criar a entrada DWORD
-)
-
-echo Configurando DefaultSearchProviderName...
-reg add "%REG_KEY%" /v DefaultSearchProviderName /t REG_SZ /d "Google" /f >nul 2>&1
-if %errorLevel% equ 0 (
-    echo [OK] DefaultSearchProviderName = Google
-) else (
-    echo [ERRO] Nao foi possivel criar a entrada REG_SZ
+    echo [ERRO] Nao foi possivel continuar! Verifique seu anti-virus
 )
 
 echo.
-echo  [+] Configuracao concluida com sucesso!
-echo As alteracoes serao aplicadas ao reiniciar o Microsoft Edge.
 echo.
 pause
 endlocal
