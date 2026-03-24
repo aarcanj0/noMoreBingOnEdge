@@ -1,0 +1,5 @@
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Edge\DefaultSearchProvider]
+"Enabled"=dword:00000001
+"Name"="Google"
+"SearchURL"="https://www.google.com/search?q={searchTerms}"
+"SuggestURL"="https://www.google.com/complete/search?output=chrome&q={searchTerms}"
